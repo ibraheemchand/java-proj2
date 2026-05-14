@@ -1,0 +1,1 @@
+Place your static web files (HTML, CSS, JS, images) in this folder. The Java WebServer will serve them at http://localhost:8080/.
