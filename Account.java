@@ -1,4 +1,5 @@
 // Java version of Account class with password support for web authentication
+// Demonstrates Inheritance and Interface implementation
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -6,17 +7,14 @@ import java.time.format.DateTimeFormatter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Account {
-    private String accountNumber;
-    private String accountHolderName;
-    private double balance;
-    private String password;
-    private List<String> transactionHistory;
+public class Account extends BankEntity implements Authenticatable {
+    protected double balance;
+    protected String password;
+    protected List<String> transactionHistory;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public Account(String accountNumber, String accountHolderName, double balance, String password) {
-        this.accountNumber = accountNumber;
-        this.accountHolderName = accountHolderName;
+        super(accountNumber, accountHolderName);
         this.balance = balance;
         this.password = password;
         this.transactionHistory = new ArrayList<>();
@@ -30,11 +28,11 @@ public class Account {
     }
 
     public String getAccountNumber() {
-        return accountNumber;
+        return getId();
     }
 
     public String getAccountHolderName() {
-        return accountHolderName;
+        return getName();
     }
 
     public double getBalance() {
@@ -45,6 +43,7 @@ public class Account {
         return password;
     }
 
+    @Override
     public void setPassword(String password) {
         this.password = password;
     }
@@ -81,7 +80,7 @@ public class Account {
             System.out.println("No transactions yet.");
             return;
         }
-        System.out.println("\n--- Transaction History for Account " + accountNumber + " ---");
+        System.out.println("\n--- Transaction History for Account " + getAccountNumber() + " ---");
         for (String transaction : transactionHistory) {
             System.out.println(transaction);
         }
@@ -93,8 +92,9 @@ public class Account {
             writer.write("================================================\n");
             writer.write("TRANSACTION HISTORY REPORT\n");
             writer.write("================================================\n");
-            writer.write("Account Number: " + accountNumber + "\n");
-            writer.write("Account Holder: " + accountHolderName + "\n");
+            writer.write("Account Number: " + getAccountNumber() + "\n");
+            writer.write("Account Type: " + getEntityType() + "\n");
+            writer.write("Account Holder: " + getAccountHolderName() + "\n");
             writer.write("Current Balance: " + balance + "\n");
             writer.write("Report Generated: " + LocalDateTime.now().format(formatter) + "\n");
             writer.write("================================================\n\n");
@@ -116,17 +116,24 @@ public class Account {
             return false;
         }
     }
-
+@Override
     public boolean authenticate(String password) {
         return this.password.equals(password);
     }
 
     @Override
+    public String getEntityType() {
+        return "Account";
+    }
+
+    @Override
+    public String displayInfo() {
+        return String.format("Account{accountNumber='%s', accountHolderName='%s', accountType='%s', balance=%.2f}", 
+            getAccountNumber(), getAccountHolderName(), getEntityType(), balance);
+    }
+
+    @Override
     public String toString() {
-        return "Account{" +
-                "accountNumber='" + accountNumber + '\'' +
-                ", accountHolderName='" + accountHolderName + '\'' +
-                ", balance=" + balance +
-                '}';
+        return displayInfo();
     }
 }

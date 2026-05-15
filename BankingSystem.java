@@ -55,11 +55,9 @@ public class BankingSystem {
 
             switch (choice) {
                 case 1: {
-                    System.out.print("Enter admin username: ");
-                    String user = scanner.nextLine();
                     System.out.print("Enter admin password: ");
                     String pass = scanner.nextLine();
-                    if (admin.authenticate(user, pass)) {
+                    if (admin.authenticate(pass)) {
                         System.out.println("Admin login successful.");
                         adminMenu(scanner, bank);
                     } else {

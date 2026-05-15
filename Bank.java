@@ -7,9 +7,10 @@ public class Bank {
 
     public Bank() {
         accounts = new ArrayList<>();
-        // Initialize with demo accounts
-        accounts.add(new Account("1", "Alice Johnson", 5000, "alice123"));
-        accounts.add(new Account("2", "Bob Smith", 3500, "bob123"));
+        // Initialize with demo accounts - one Savings and one Current
+        // Demonstrates Polymorphism: different account types stored in same list
+        accounts.add(new SavingsAccount("1", "Alice Johnson", 5000, "alice123", 3.5));
+        accounts.add(new CurrentAccount("2", "Bob Smith", 3500, "bob123", 500));
     }
 
     public void addAccount(Account account) {
@@ -50,5 +51,30 @@ public class Bank {
 
     public List<Account> getAccounts() {
         return accounts;
+    }
+
+    /**
+     * Demonstrates Polymorphism - calls getEntityType() on each account
+     * at runtime, the correct subclass method is called
+     */
+    public void printAllAccountTypes() {
+        System.out.println("\n========== Account Types Report ==========");
+        for (Account account : accounts) {
+            // Polymorphic call - actual method called depends on runtime type
+            System.out.println("Account " + account.getAccountNumber() + " (" + account.getAccountHolderName() + 
+                             "): " + account.getEntityType());
+        }
+        System.out.println("==========================================\n");
+    }
+
+    /**
+     * Display all account details using polymorphic displayInfo()
+     */
+    public void displayAllAccountDetails() {
+        System.out.println("\n========== All Account Details ==========");
+        for (Account account : accounts) {
+            System.out.println(account.displayInfo());
+        }
+        System.out.println("==========================================\n");
     }
 }

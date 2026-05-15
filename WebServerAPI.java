@@ -123,7 +123,7 @@ public class WebServerAPI {
                     sendJson(exchange, 400, "{\"status\":\"err\",\"message\":\"Missing password\"}");
                     return;
                 }
-                if (admin.authenticate("admin", password)) {
+                if (admin.authenticate(password)) {
                     String token = "admin_" + UUID.randomUUID();
                     sessions.put(token, "ADMIN");
                     sendJson(exchange, 200, "{\"status\":\"ok\",\"message\":\"Admin login successful\",\"token\":\"" + token + "\"}");

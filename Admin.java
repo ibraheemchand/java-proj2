@@ -1,14 +1,37 @@
 // Java version of Admin class
-public class Admin {
-    private String username;
+// Demonstrates Inheritance and Interface implementation
+public class Admin extends BankEntity implements Authenticatable {
     private String password;
 
     public Admin(String username, String password) {
-        this.username = username;
+        super(username, username);
         this.password = password;
     }
 
-    public boolean authenticate(String username, String password) {
-        return this.username.equals(username) && this.password.equals(password);
+    @Override
+    public boolean authenticate(String password) {
+        return this.password.equals(password);
+    }
+
+    @Override
+    public void setPassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    @Override
+    public String getEntityType() {
+        return "Admin";
+    }
+
+    @Override
+    public String displayInfo() {
+        return String.format("Admin{id='%s', name='%s', entityType='%s'}",
+            getId(), getName(), getEntityType());
+    }
+
+    @Override
+    public String toString() {
+        return displayInfo();
     }
 }
+
