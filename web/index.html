@@ -1945,7 +1945,11 @@
             }
         }
 
-        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+        function closeModal(id) { 
+            const modal = document.getElementById(id);
+            modal.classList.remove('open');
+            modal.classList.remove('active');
+        }
 
         function lookupAccount(value) {
             const accountNumber = displayAccountNumber(value);
@@ -3803,10 +3807,6 @@
 
         function showModal(modalId) {
             document.getElementById(modalId).classList.add('active');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
         }
 
         document.querySelectorAll('.modal').forEach(modal => {
